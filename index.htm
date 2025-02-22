@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Gioco di Calcio</title>
+    <title>Football-GPT</title>
     <style>
         body {
             margin: 0;
@@ -18,7 +18,7 @@
         }
         #scoreboard {
             position: absolute;
-            top: 10px;
+            top: 12px;
             left: 50%;
             transform: translateX(-50%);
             background: linear-gradient(90deg, #002D72, #007FFF);
@@ -35,7 +35,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             color: yellow;
-            font-size: 48px;
+            font-size: 50px;
             font-family: Arial, sans-serif;
             display: none;
             animation: fadeOut 2s ease-in-out;
@@ -134,7 +134,112 @@
             0% { opacity: 1; }
             100% { opacity: 0; }
         }
+
+
     </style>
+
+
+	<!-- Bottone per seguire il programmatore sui social -->
+	<div id="socialButtons" style="position: absolute; bottom: 20px; left: 20px;">
+    	<button onclick="window.open('https://www.instagram.com/manu.ilminnoo', '_blank')" style="padding: 10px 20px; margin-right: 10px; background-color: #E1306C; color: white; border: none; border-radius: 5px; 	cursor: 	pointer;">
+        Seguimi su Instagram
+    	</button>
+    	<button onclick="window.open('https://www.tiktok.com/@tuo_nome_tiktok', '_blank')" style="padding: 10px 20px; background-color: #000000; color: white; border: none; border-radius: 5px; cursor: pointer;">
+        Seguimi su TikTok
+    	</button>
+		</div>
+
+	
+<!-- Pulsante per aprire lo store -->
+<button id="storeButton" onclick="openStore()">Store</button>
+
+<!-- Pulsante per gli aggiornamenti -->
+<button id="updatesButton" onclick="toggleUpdates()">Ultimi Aggiornamenti</button>
+
+<!-- Menu degli aggiornamenti -->
+<div id="updatesMenu" style="display: none; position: absolute; top: 210px; right: 20px; background-color: #f8f9fa; padding: 15px;">
+    <h3>Ultimi Aggiornamenti:</h3>
+    <ul>
+        <li>Aggiunta la modalità notturna</li>
+        <li>Ottimizzato il movimento dell'intelligenza artificiale</li>
+        <li>Aggiunta nuove squadre</li>
+        <li>Aggiunto pulsante selezione tempo di gioco</li>
+        <li>Nuova interfaccia grafica migliorata</li>
+    </ul>
+</div>
+
+<style>
+    #storeButton {
+        padding: 12px 25px;
+        font-size: 16px;
+        border: 2px solid #007bff;
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+        margin-bottom: 10px; /* Spazio tra i pulsanti */
+        transition: all 0.3s ease;
+    }
+
+    #storeButton:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+
+    #updatesButton {
+        padding: 2px 20px;
+        font-size: 18px;
+        border: 2px solid #28a745;
+        background-color: #28a745;
+        color: white;
+        cursor: pointer;
+        margin-bottom: 10px;
+        transition: all 0.3s ease;
+        margin-top: 50px; /* Distanza aumentata dal pulsante store */
+    }
+
+    #updatesButton:hover {
+        background-color: #218838;
+        border-color: #1e7e34;
+    }
+
+    /* Stile per il menu degli aggiornamenti */
+    #updatesMenu {
+        background-color: #f8f9fa;
+        padding: 20px;
+        width: 300px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    #updatesMenu h3 {
+        margin-bottom: 10px;
+        font-size: 18px;
+    }
+
+    #updatesMenu ul {
+        list-style-type: none;
+        padding-left: 0;
+    }
+
+    #updatesMenu ul li {
+        font-size: 16px;
+        margin: 5px 0;
+    }
+</style>
+
+<script>
+    // Funzione per toggle (apertura/chiusura) della sezione degli aggiornamenti
+    function toggleUpdates() {
+        const updatesMenu = document.getElementById("updatesMenu");
+        updatesMenu.style.display = updatesMenu.style.display === "none" || updatesMenu.style.display === "" ? "block" : "none";
+    }
+
+    // Funzione per aprire lo store (puoi personalizzarla come preferisci)
+    function openStore() {
+        alert("Apertura dello store");
+    }
+</script>
+
 
 
 
@@ -158,6 +263,21 @@
             <option value="Milan">Milan</option>
             <option value="PSG">PSG</option>
             <option value="Juventus">Juventus</option>
+	<option value="Bayern Monaco">Bayern Monaco</option>
+            <option value="Borussia Dortmund">Borussia Dortmund</option>
+            <option value="Lione">Lione</option>
+            <option value="Marsiglia">Marsiglia</option>
+            <option value="Atletico Madrid">Atletico Madrid</option>
+            <option value="Fiorentina">Fiorentina</option>
+            <option value="Liverpool">Liverpool</option>
+            <option value="Manchester United">Manchester United</option>
+            <option value="Manchester City">Manchester City</option>
+            <option value="Arsenal">Arsenal</option>
+            <option value="Tottenham">Tottenham</option>
+            <option value="Chelsea">Chelsea</option>
+            <option value="West Ham">West Ham</option>
+            <option value="Atalanta">Atalanta</option>
+
         </select>
         <br><br>
         <label for="team2">Seleziona Squadra 2:</label>
@@ -170,6 +290,21 @@
             <option value="Milan">Milan</option>
             <option value="PSG">PSG</option>
             <option value="Juventus">Juventus</option>
+<option value="Bayern Monaco">Bayern Monaco</option>
+            <option value="Borussia Dortmund">Borussia Dortmund</option>
+            <option value="Lione">Lione</option>
+            <option value="Marsiglia">Marsiglia</option>
+            <option value="Atletico Madrid">Atletico Madrid</option>
+            <option value="Fiorentina">Fiorentina</option>
+            <option value="Liverpool">Liverpool</option>
+            <option value="Manchester United">Manchester United</option>
+            <option value="Manchester City">Manchester City</option>
+            <option value="Arsenal">Arsenal</option>
+            <option value="Tottenham">Tottenham</option>
+            <option value="Chelsea">Chelsea</option>
+            <option value="West Ham">West Ham</option>
+            <option value="Atalanta">Atalanta</option>
+
         </select>
     </div>
 
@@ -197,6 +332,11 @@
         </ul>
     </div>
 
+	
+<button id="fullscreenButton" onclick="toggleFullscreen()">Attiva/Disattiva Fullscreen</button>
+
+	
+
     <canvas id="gameCanvas" width="800" height="500"></canvas>
 
     <script>
@@ -215,9 +355,22 @@
             Inter: "#0057A0",
             Milan: "#D00027",
             PSG: "#006B8F",
-            Juventus: "#000000"
+            Juventus: "#000000",
+            "Bayern Monaco": "#DC052D",
+            "Borussia Dortmund": "#FDE100",
+            "Lione": "#006CB7",
+            "Marsiglia": "#FFFFFF",
+            "Atletico Madrid": "#CB3531",
+            "Fiorentina": "#9C27B0",
+            "Liverpool": "#D1071A",
+            "Manchester United": "#DA291C",
+            "Manchester City": "#6CABDD",
+            "Arsenal": "#EF0107",
+            "Tottenham": "#132043",
+            "Chelsea": "#034694",
+            "West Ham": "#7A263A",
+            "Atalanta": "#1B5E20"
         };
-
 
 
         function setGameDuration() {
@@ -258,7 +411,7 @@
 
             player1 = { x: 100, y: 250, size: 15, color: teamColors[team1Name] };
             player2 = { x: 700, y: 250, size: 15, color: teamColors[team2Name] };
-            ball = { x: 400, y: 250, size: 10, dx: 3, dy: 3 };
+            ball = { x: 400, y: 250, size: 10, dx: 0.5, dy: 0.5 };
             isNight = false;
             updateFieldAppearance();
             document.getElementById("endMessage").style.display = "none";
@@ -309,12 +462,8 @@
         function moveBall() {
             ball.x += ball.dx;
             ball.y += ball.dy;
-	ball.dx *= 0.99;
-	ball.dy *= 0.99;
 
 
-if (Math.abs(ball.dx) < 0.5) ball.dx = ball.dx > 0 ? 0.5 : -0.5;
-if (Math.abs(ball.dy) < 0.5) ball.dy = ball.dy > 0 ? 0.5 : -0.5;
 
             if (ball.x - ball.size < 0 || ball.x + ball.size > canvas.width) {
                 ball.dx *= -1;
@@ -347,8 +496,8 @@ if (Math.abs(ball.dy) < 0.5) ball.dy = ball.dy > 0 ? 0.5 : -0.5;
         function resetBall() {
             ball.x = 400;
             ball.y = 250;
-            ball.dx = 3;
-            ball.dy = 3;
+            ball.dx = -0.5;
+            ball.dy = -0.5;
         }
 
         function checkCollision(player) {
@@ -415,7 +564,7 @@ if (Math.abs(ball.dy) < 0.5) ball.dy = ball.dy > 0 ? 0.5 : -0.5;
     	const distanceToBall = Math.sqrt(dxToBall * dxToBall + dyToBall * dyToBall);
 
     	// Normalizzare il movimento per rendere l'AI più veloce
-    	const moveSpeed = 3;  // Maggiore velocità per l'AI
+    	const moveSpeed = 4;  // Maggiore velocità per l'AI
 
     	// L'IA si muove verso la palla se è lontana abbastanza
    	 if (distanceToBall > player2.size + ball.size) {
@@ -458,7 +607,7 @@ function checkAICollision() {
     // Se la distanza tra il pallone e l'AI è abbastanza piccola, significa che l'AI ha colpito il pallone
     if (distance < ball.size + player2.size) {
         const angle = Math.atan2(dy, dx);  // Calcola l'angolo di direzione per il pallone
-        const speed = 6;  // Velocità con cui il pallone viene spinto
+        const speed = 4.5;  // Velocità con cui il pallone viene spinto
         ball.dx = Math.cos(angle) * speed;
         ball.dy = Math.sin(angle) * speed;
     }
@@ -514,18 +663,18 @@ const MARGIN = 10;  // Margine minimo per evitare che il giocatore vada oltre i 
 // Funzione per il movimento del giocatore di sinistra
 function movePlayer1() {
     // Movimento verticale
-    if (keys['ArrowUp'] && player1.y > MARGIN) {  // Restrizione superiore
+    if (keys['W'] && player1.y > MARGIN) {  // Restrizione superiore
         player1.y -= player1.speed;
     }
-    if (keys['ArrowDown'] && player1.y < canvas.height - player1.height - MARGIN) {  // Restrizione inferiore
+    if (keys['S'] && player1.y < canvas.height - player1.height - MARGIN) {  // Restrizione inferiore
         player1.y += player1.speed;
     }
 
     // Movimento orizzontale
-    if (keys['ArrowLeft'] && player1.x > MARGIN) {  // Restrizione sinistra
+    if (keys['A'] && player1.x > MARGIN) {  // Restrizione sinistra
         player1.x -= player1.speed;
     }
-    if (keys['ArrowRight'] && player1.x < canvas.width - player1.width - MARGIN) {  // Restrizione destra
+    if (keys['D'] && player1.x < canvas.width - player1.width - MARGIN) {  // Restrizione destra
         player1.x += player1.speed;
     }
 }
@@ -548,7 +697,32 @@ function draw() {
 }	
 
 
-
+	
+function toggleFullscreen() {
+    if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+        // Se non siamo già in fullscreen, entriamo in modalità fullscreen
+        if (document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen();
+        } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+            document.documentElement.mozRequestFullScreen();
+        } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari and Opera
+            document.documentElement.webkitRequestFullscreen();
+        } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+            document.documentElement.msRequestFullscreen();
+        }
+    } else {
+        // Se siamo già in fullscreen, usciamo
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) { // Firefox
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) { // Chrome, Safari and Opera
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { // IE/Edge
+            document.msExitFullscreen();
+        }
+    }
+}
 
 
 
