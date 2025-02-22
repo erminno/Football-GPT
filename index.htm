@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gioco di Calcio</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #4caf50;
+            flex-direction: column;
+        }
+        canvas {
+            background-color: #006400;
+            border: 5px solid white;
+        }
+        #scoreboard {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(90deg, #002D72, #007FFF);
+            color: white;
+            font-size: 24px;
+            font-family: Arial, sans-serif;
+            padding: 5px 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+        }
+        #goalMessage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: yellow;
+            font-size: 48px;
+            font-family: Arial, sans-serif;
+            display: none;
+            animation: fadeOut 2s ease-in-out;
+        }
+        #endMessage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: red;
+            font-size: 48px;
+            font-family: Arial, sans-serif;
+            display: none;
+        }
+        #restartButton {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #007FFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #restartButton:hover {
+            background-color: #0056b3;
+        }
+        #durationSelector {
+            margin: 20px;
+            font-size: 18px;
+            padding: 5px;
+        }
+        #dayNightButton {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #dayNightButton:hover {
+            background-color: #555;
+        }
+        #teamSelection {
+            position: absolute;
+            top: 50px;
+            left: 20px;
+            font-size: 18px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        #teamSelection select {
+            font-size: 18px;
+            padding: 5px;
+        }
+        #storeButton {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #storeButton:hover {
+            background-color: #218838;
+        }
+        #storeMenu {
+            display: none;
+            position: absolute;
+            top: 100px;
+            right: 20px;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+        #storeMenu ul {
+            list-style: none;
+            padding: 0;
+        }
+        #storeMenu ul li {
+            margin: 10px 0;
+        }
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+    </style>
+
+
+
+
+	
+</head>
+<body>
+    <div id="scoreboard">Tempo: <span id="time">120</span> | <strong><span id="score">0 - 0</span></strong></div>
+    <div id="goalMessage">GOAL!!!</div>
+    <div id="endMessage"></div>
+
+    <!-- Selettore delle squadre -->
+    <div id="teamSelection">
+        <label for="team1">Seleziona Squadra 1:</label>
+        <select id="team1" onchange="setTeams()">
+            <option value="Lazio">Lazio</option>
+            <option value="Roma">Roma</option>
+            <option value="Real Madrid">Real Madrid</option>
+            <option value="Barcellona">Barcellona</option>
+            <option value="Inter">Inter</option>
+            <option value="Milan">Milan</option>
+            <option value="PSG">PSG</option>
+            <option value="Juventus">Juventus</option>
+        </select>
+        <br><br>
+        <label for="team2">Seleziona Squadra 2:</label>
+        <select id="team2" onchange="setTeams()">
+            <option value="Lazio">Lazio</option>
+            <option value="Roma">Roma</option>
+            <option value="Real Madrid">Real Madrid</option>
+            <option value="Barcellona">Barcellona</option>
+            <option value="Inter">Inter</option>
+            <option value="Milan">Milan</option>
+            <option value="PSG">PSG</option>
+            <option value="Juventus">Juventus</option>
+        </select>
+    </div>
+
+    <button id="restartButton" onclick="restartGame()">Riavvia Partita</button>
+
+    <!-- Selettore durata -->
+    <select id="durationSelector" onchange="setGameDuration()">
+        <option value="60">1 Minuto</option>
+        <option value="120" selected>2 Minuti</option>
+        <option value="180">3 Minuti</option>
+    </select>
+
+    <!-- Tasto giorno/notte -->
+    <button id="dayNightButton" onclick="toggleDayNight()">Modalità Notte</button>
+    
+    <!-- Pulsante per aprire lo store -->
+    <button id="storeButton" onclick="toggleStore()">Apri Store</button>
+    
+    <!-- Menu dello store -->
+    <div id="storeMenu">
+        <ul>
+            <li>SOON</li>
+            <li>SOON</li>
+            <li>SOON</li>
+        </ul>
+    </div>
+
+    <canvas id="gameCanvas" width="800" height="500"></canvas>
+
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+
+        let score, time, gameRunning, player1, player2, ball, isNight;
+
+        let team1Name = "Lazio", team2Name = "Roma";
+
+        const teamColors = {
+            Lazio: "#00A9E0",
+            Roma: "#9B1B30",
+            "Real Madrid": "#FFFFFF",
+            Barcellona: "#004D98",
+            Inter: "#0057A0",
+            Milan: "#D00027",
+            PSG: "#006B8F",
+            Juventus: "#000000"
+        };
+
+
+
+        function setGameDuration() {
+            const selectedDuration = parseInt(document.getElementById("durationSelector").value);
+            time = selectedDuration;
+            if (!gameRunning) restartGame();
+        }
+
+        function toggleDayNight() {
+            isNight = !isNight;
+            const button = document.getElementById("dayNightButton");
+            if (isNight) {
+                button.innerText = "Modalità Giorno";
+            } else {
+                button.innerText = "Modalità Notte";
+            }
+            updateFieldAppearance();
+        }
+
+        function updateFieldAppearance() {
+            if (isNight) {
+                canvas.style.backgroundColor = "#2c2c2c";
+            } else {
+                canvas.style.backgroundColor = "#006400";
+            }
+        }
+
+        function setTeams() {
+            team1Name = document.getElementById("team1").value;
+            team2Name = document.getElementById("team2").value;
+            restartGame();
+        }
+
+        function initGame() {
+            score = { team1: 0, team2: 0 };
+            time = parseInt(document.getElementById("durationSelector").value);
+            gameRunning = true;
+
+            player1 = { x: 100, y: 250, size: 15, color: teamColors[team1Name] };
+            player2 = { x: 700, y: 250, size: 15, color: teamColors[team2Name] };
+            ball = { x: 400, y: 250, size: 10, dx: 3, dy: 3 };
+            isNight = false;
+            updateFieldAppearance();
+            document.getElementById("endMessage").style.display = "none";
+        }
+
+        function drawField() {
+            ctx.fillStyle = isNight ? "#2c2c2c" : "#006400";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = "white";
+            ctx.lineWidth = 5;
+            ctx.strokeRect(0, 0, canvas.width, canvas.height);
+            ctx.beginPath();
+            ctx.arc(canvas.width / 2, canvas.height / 2, 70, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(canvas.width / 2, 0);
+            ctx.lineTo(canvas.width / 2, canvas.height);
+            ctx.stroke();
+            ctx.strokeRect(0, 175, 50, 150);
+            ctx.strokeRect(750, 175, 50, 150);
+
+            if (isNight) {
+                ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
+                ctx.lineWidth = 15;
+                ctx.beginPath();
+                ctx.arc(canvas.width / 2, canvas.height / 2, 100, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.lineWidth = 5;
+            }
+        }
+
+        function drawPlayer(player) {
+            ctx.beginPath();
+            ctx.arc(player.x, player.y, player.size, 0, Math.PI * 2);
+            ctx.fillStyle = player.color;
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function drawBall() {
+            ctx.beginPath();
+            ctx.arc(ball.x, ball.y, ball.size, 0, Math.PI * 2);
+            ctx.fillStyle = "white";
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function moveBall() {
+            ball.x += ball.dx;
+            ball.y += ball.dy;
+	ball.dx *= 0.99;
+	ball.dy *= 0.99;
+
+
+if (Math.abs(ball.dx) < 0.5) ball.dx = ball.dx > 0 ? 0.5 : -0.5;
+if (Math.abs(ball.dy) < 0.5) ball.dy = ball.dy > 0 ? 0.5 : -0.5;
+
+            if (ball.x - ball.size < 0 || ball.x + ball.size > canvas.width) {
+                ball.dx *= -1;
+            }
+
+            if (ball.y - ball.size < 0 || ball.y + ball.size > canvas.height) {
+                ball.dy *= -1;
+            }
+
+            if (ball.x < 10 && ball.y > 175 && ball.y < 325) {
+                score.team2++;
+                showGoalMessage();
+                resetBall();
+                checkGameEnd();
+            }
+            if (ball.x > 790 && ball.y > 175 && ball.y < 325) {
+                score.team1++;
+                showGoalMessage();
+                resetBall();
+                checkGameEnd();
+            }
+        }
+
+        function showGoalMessage() {
+            const goalMessage = document.getElementById("goalMessage");
+            goalMessage.style.display = "block";
+            setTimeout(() => { goalMessage.style.display = "none"; }, 2000);
+        }
+
+        function resetBall() {
+            ball.x = 400;
+            ball.y = 250;
+            ball.dx = 3;
+            ball.dy = 3;
+        }
+
+        function checkCollision(player) {
+            const dx = ball.x - player.x;
+            const dy = ball.y - player.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < ball.size + player.size) {
+                const angle = Math.atan2(dy, dx);
+                const speed = 5;
+                ball.dx = Math.cos(angle) * speed;
+                ball.dy = Math.sin(angle) * speed;
+            }
+        }
+
+        function updateScoreboard() {
+            document.getElementById("score").innerText = `${team1Name} ${score.team1} - ${score.team2} ${team2Name}`;
+            document.getElementById("time").innerText = time;
+        }
+
+	function restartGame() {
+            document.getElementById("endMessage").style.display = "none";
+            initGame();
+        }
+
+        function checkGameEnd() {
+            if (score.team1 >= 5 || score.team2 >= 5 || time <= 0) {
+                gameRunning = false;
+                if (score.team1 === score.team2) {
+                    document.getElementById("endMessage").innerText = `Partita Finita! Pareggio!`;
+                } else {
+                    const winner = score.team1 > score.team2 ? team1Name : team2Name;
+                    document.getElementById("endMessage").innerText = `Partita Finita! Vince ${winner}`;
+                }
+                document.getElementById("endMessage").style.display = "block";
+            }
+        }
+
+        function restartGame() {
+            document.getElementById("endMessage").style.display = "none";
+            initGame();
+        }
+
+        function gameLoop() {
+            if (!gameRunning) return;
+
+            drawField();
+            drawPlayer(player1);
+            drawPlayer(player2);
+            drawBall();
+            moveBall();
+            checkCollision(player1);
+            checkCollision(player2);
+            updateScoreboard();
+        }
+
+	// Funzione per far muovere l'intelligenza artificiale (player2) in modo più deciso
+	function moveAI() {
+    	// Calcolare la direzione verso la palla
+    	const dxToBall = ball.x - player2.x;
+    	const dyToBall = ball.y - player2.y;
+
+    	// Calcolare la distanza tra l'AI e la palla
+    	const distanceToBall = Math.sqrt(dxToBall * dxToBall + dyToBall * dyToBall);
+
+    	// Normalizzare il movimento per rendere l'AI più veloce
+    	const moveSpeed = 3;  // Maggiore velocità per l'AI
+
+    	// L'IA si muove verso la palla se è lontana abbastanza
+   	 if (distanceToBall > player2.size + ball.size) {
+        player2.x += (dxToBall / distanceToBall) * moveSpeed;
+        player2.y += (dyToBall / distanceToBall) * moveSpeed;
+    	} else {
+        // Quando l'IA è vicina alla palla, spinge il pallone verso la porta di sinistra (player1)
+        const targetX = 50;  // La porta di sinistra si trova vicino a X = 50
+        const targetY = canvas.height / 2;  // Centrato sulla porta
+
+        const dxToGoal = targetX - ball.x;  // Direzione verso la porta di sinistra
+        const dyToGoal = targetY - ball.y;  // Direzione centrata sulla porta
+
+        // Normalizzare il movimento verso la porta di sinistra
+        const goalSpeed = 5;  // Maggiore velocità verso la porta
+        ball.dx = (dxToGoal / Math.abs(dxToGoal)) * goalSpeed;
+        ball.dy = (dyToGoal / Math.abs(dyToGoal)) * goalSpeed;
+   	 }
+
+    // Limiti del movimento dell'IA: impedire che si avvicini troppo ai bordi
+    const margin = 50;  // Distanza minima dal bordo (evitare angoli e bordi)
+    if (player2.x < margin) player2.x = margin;  // Non oltre il bordo sinistro
+    if (player2.x > canvas.width - margin) player2.x = canvas.width - margin;  // Non oltre il bordo destro
+    if (player2.y < margin) player2.y = margin;  // Non oltre il bordo superiore
+    if (player2.y > canvas.height - margin) player2.y = canvas.height - margin;  // Non oltre il bordo inferiore
+}
+
+
+
+
+
+
+
+// Funzione che determina se l'AI ha colpito il pallone
+function checkAICollision() {
+    const dx = ball.x - player2.x;
+    const dy = ball.y - player2.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    // Se la distanza tra il pallone e l'AI è abbastanza piccola, significa che l'AI ha colpito il pallone
+    if (distance < ball.size + player2.size) {
+        const angle = Math.atan2(dy, dx);  // Calcola l'angolo di direzione per il pallone
+        const speed = 6;  // Velocità con cui il pallone viene spinto
+        ball.dx = Math.cos(angle) * speed;
+        ball.dy = Math.sin(angle) * speed;
+    }
+}
+
+// Funzione che si occupa di far avanzare il gioco
+function gameLoop() {
+    if (!gameRunning) return;
+
+    drawField();
+    drawPlayer(player1);
+    drawPlayer(player2);
+    drawBall();
+    moveBall();
+    checkCollision(player1);
+    checkCollision(player2);
+
+    // Movimento IA
+    moveAI();
+    checkAICollision();  // Verifica se l'AI ha colpito il pallone
+
+    updateScoreboard();
+}
+
+        setInterval(() => {
+            if (time > 0 && gameRunning) {
+                time--;
+            }
+            checkGameEnd();
+        }, 1000);
+
+        window.addEventListener("keydown", (e) => {
+            if (!gameRunning) return;
+
+            switch (e.key) {
+                case "w": player1.y -= 30; break;
+                case "s": player1.y += 30; break;
+                case "a": player1.x -= 30; break;
+                case "d": player1.x += 30; break;
+
+            }
+        });
+
+        function toggleStore() {
+            const storeMenu = document.getElementById("storeMenu");
+            storeMenu.style.display = storeMenu.style.display === "none" || storeMenu.style.display === "" ? "block" : "none";
+        }
+
+
+   // Impostiamo dei margini minimi rispetto ai bordi del campo
+const MARGIN = 10;  // Margine minimo per evitare che il giocatore vada oltre i limiti
+
+// Funzione per il movimento del giocatore di sinistra
+function movePlayer1() {
+    // Movimento verticale
+    if (keys['ArrowUp'] && player1.y > MARGIN) {  // Restrizione superiore
+        player1.y -= player1.speed;
+    }
+    if (keys['ArrowDown'] && player1.y < canvas.height - player1.height - MARGIN) {  // Restrizione inferiore
+        player1.y += player1.speed;
+    }
+
+    // Movimento orizzontale
+    if (keys['ArrowLeft'] && player1.x > MARGIN) {  // Restrizione sinistra
+        player1.x -= player1.speed;
+    }
+    if (keys['ArrowRight'] && player1.x < canvas.width - player1.width - MARGIN) {  // Restrizione destra
+        player1.x += player1.speed;
+    }
+}
+function draw() {
+    // Pulisce il canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Disegna il giocatore 1
+    ctx.fillStyle = 'red';  // Colore del giocatore
+    ctx.fillRect(player1.x, player1.y, player1.width, player1.height);
+
+    // Disegna altri elementi del gioco come la palla, ecc.
+    // ...
+
+    // Esegui il movimento del giocatore
+    movePlayer1();
+
+    // Richiama il disegno successivo
+    requestAnimationFrame(draw);
+}	
+
+
+
+
+
+
+
+
+        initGame();
+        setInterval(gameLoop, 1000 / 60);
+    </script>
+</body>
+</html>
