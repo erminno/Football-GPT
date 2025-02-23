@@ -139,6 +139,7 @@
     </style>
 
 
+
 	<!-- Bottone per seguire il programmatore sui social -->
 	<div id="socialButtons" style="position: absolute; bottom: 20px; left: 20px;">
     	<button onclick="window.open('https://www.instagram.com/manu.ilminnoo', '_blank')" style="padding: 10px 20px; margin-right: 10px; background-color: #E1306C; color: white; border: none; border-radius: 5px; 	cursor: 	pointer;">
@@ -148,6 +149,10 @@
         Seguimi su TikTok
     	</button>
 		</div>
+
+
+
+
 
 	
 <!-- Pulsante per aprire lo store -->
@@ -160,6 +165,7 @@
 <div id="updatesMenu" style="display: none; position: absolute; top: 210px; right: 20px; background-color: #f8f9fa; padding: 15px;">
     <h3>Ultimi Aggiornamenti:</h3>
     <ul>
+	<li>!NEW! Supporto controller(PS/XBOX)</li>
         <li>Aggiunta la modalità notturna</li>
         <li>Ottimizzato il movimento dell'intelligenza artificiale</li>
         <li>Aggiunta nuove squadre</li>
@@ -404,6 +410,20 @@
             restartGame();
         }
 
+
+
+player1 = {
+    x: 100,
+    y: 250,
+    size: 15, // Raggio per la visualizzazione circolare
+    width: 20, // Larghezza dell'hitbox rettangolare
+    height: 30, // Altezza dell'hitbox rettangolare
+    color: teamColors[team1Name]
+};
+
+
+
+
         function initGame() {
             score = { team1: 0, team2: 0 };
             time = parseInt(document.getElementById("durationSelector").value);
@@ -411,7 +431,7 @@
 
             player1 = { x: 100, y: 250, size: 15, color: teamColors[team1Name] };
             player2 = { x: 700, y: 250, size: 15, color: teamColors[team2Name] };
-            ball = { x: 400, y: 250, size: 10, dx: 0.5, dy: 0.5 };
+            ball = { x: 400, y: 250, size: 10, dx: 0.6, dy: 0.6 };
             isNight = false;
             updateFieldAppearance();
             document.getElementById("endMessage").style.display = "none";
@@ -507,10 +527,21 @@
 
             if (distance < ball.size + player.size) {
                 const angle = Math.atan2(dy, dx);
-                const speed = 5;
+                const speed = 4;
                 ball.dx = Math.cos(angle) * speed;
                 ball.dy = Math.sin(angle) * speed;
             }
+
+	
+	    if (player === player1) {
+        // Collisione con hitbox rettangolare
+        if (ball.x > player.x && ball.x < player.x + player.width &&
+            ball.y > player.y && ball.y < player.y + player.height) {
+            // Collisione rilevata
+            return;
+        }
+    }
+
         }
 
         function updateScoreboard() {
@@ -541,18 +572,20 @@
             initGame();
         }
 
-        function gameLoop() {
-            if (!gameRunning) return;
+function gameLoop() {
+    if (!gameRunning) return;
 
-            drawField();
-            drawPlayer(player1);
-            drawPlayer(player2);
-            drawBall();
-            moveBall();
-            checkCollision(player1);
-            checkCollision(player2);
-            updateScoreboard();
-        }
+    drawField();
+    drawPlayer(player1);
+    drawPlayer(player2);
+    drawBall();
+    moveBall();
+    handlePlayer1Collision(gamepad, ball); // Chiama la nuova funzione
+    checkCollision(player2);
+    moveAI();
+    checkAICollision();
+    updateScoreboard();
+}
 
 	// Funzione per far muovere l'intelligenza artificiale (player2) in modo più deciso
 	function moveAI() {
@@ -614,23 +647,22 @@ function checkAICollision() {
 }
 
 // Funzione che si occupa di far avanzare il gioco
-function gameLoop() {
-    if (!gameRunning) return;
+    function gameLoop() {
+        if (!gameRunning) return;
 
-    drawField();
-    drawPlayer(player1);
-    drawPlayer(player2);
-    drawBall();
-    moveBall();
-    checkCollision(player1);
-    checkCollision(player2);
-
-    // Movimento IA
-    moveAI();
-    checkAICollision();  // Verifica se l'AI ha colpito il pallone
-
-    updateScoreboard();
-}
+        drawField();
+        drawPlayer(player1);
+        drawPlayer(player2);
+        drawBall();
+        moveBall();
+	checkGamepad(); // Controlla lo stato del controller
+	keepBallInBounds(ball, canvas)
+        checkCollision(player1);
+        checkCollision(player2);
+        moveAI();
+        checkAICollision();
+        updateScoreboard();
+    }
 
         setInterval(() => {
             if (time > 0 && gameRunning) {
@@ -724,12 +756,112 @@ function toggleFullscreen() {
     }
 }
 
+function handlePlayer1Collision(gamepad, ball) {
+    if (gamepad) {
+        // Movimento del giocatore 1 (come nella funzione handlePlayer1 precedente)
+        let moveX = 0;
+        let moveY = 0;
+        const deadZone = 0.1;
 
+        if (gamepad.axes[0] > deadZone) {
+            moveX = 5;
+        } else if (gamepad.axes[0] < -deadZone) {
+            moveX = -5;
+        }
 
+        if (gamepad.axes[1] > deadZone) {
+            moveY = 5;
+        } else if (gamepad.axes[1] < -deadZone) {
+            moveY = -5;
+        }
 
+        player1.x += moveX;
+        player1.y += moveY;
 
-        initGame();
+        // Limita il movimento del giocatore all'interno del canvas
+        if (player1.x < 0) player1.x = 0;
+        if (player1.x > canvas.width - player1.size) player1.x = canvas.width - player1.size;
+        if (player1.y < 0) player1.y = 0;
+        if (player1.y > canvas.height - player1.size) player1.y = canvas.height - player1.size;
+
+        // Gestione della collisione con la palla
+        const dx = ball.x - player1.x;
+        const dy = ball.y - player1.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance > ball.size + player1.size) {
+            // Collisione rilevata con giocatore 1, non modificare la velocità
+            return;
+        }
+    }
+}
+
+function keepBallInBounds(ball, canvas) {
+    const leftBound = ball.size;
+    const rightBound = canvas.width - ball.size;
+    const topBound = ball.size;
+    const bottomBound = canvas.height - ball.size;
+
+    // Verifica i limiti orizzontali
+    if (ball.x < leftBound) {
+        ball.x = leftBound;
+        if (ball.dx < 0) { // Verifica che la palla si stia muovendo verso il bordo
+            ball.dx *= -1; // Inverti la direzione orizzontale
+        }
+    } else if (ball.x > rightBound) {
+        ball.x = rightBound;
+        if (ball.dx > 0) { // Verifica che la palla si stia muovendo verso il bordo
+            ball.dx *= -1; // Inverti la direzione orizzontale
+        }
+    }
+
+    // Verifica i limiti verticali
+    if (ball.y < topBound) {
+        ball.y = topBound;
+        if (ball.dy < 0) { // Verifica che la palla si stia muovendo verso il bordo
+            ball.dy *= -1; // Inverti la direzione verticale
+        }
+    } else if (ball.y > bottomBound) {
+        ball.y = bottomBound;
+        if (ball.dy > 0) { // Verifica che la palla si stia muovendo verso il bordo
+            ball.dy *= -1; // Inverti la direzione verticale
+        }
+    }
+}        initGame();
         setInterval(gameLoop, 1000 / 60);
     </script>
+
+<script>
+    let gamepad;
+
+    function checkGamepad() {
+        const gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
+        gamepad = gamepads[0]; // Prende il primo controller disponibile
+
+        if (gamepad) {
+            // Asse orizzontale (asse 0)
+            const horizontalAxis = gamepad.axes[0];
+            // Asse verticale (asse 1)
+            const verticalAxis = gamepad.axes[1];
+
+            // Movimento del giocatore basato sugli assi del controller
+            player1.x += horizontalAxis * 5; // Regola la velocità di movimento
+            player1.y += verticalAxis * 5;
+
+            // Limita il movimento del giocatore all'interno del canvas
+            if (player1.x < 0) player1.x = 0;
+            if (player1.x > canvas.width - player1.size) player1.x = canvas.width - player1.size;
+            if (player1.y < 0) player1.y = 0;
+            if (player1.y > canvas.height - player1.size) player1.y = canvas.height - player1.size;
+
+        }
+
+    }
+
+
+</script>
+
+
+
 </body>
 </html>
