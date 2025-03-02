@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Kings.GPT</title>
+    <title>Kings.GPT©</title>
     <style>
         body {
             margin: 0;
@@ -283,7 +283,7 @@
 <div id="customTextModal">
     <div id="customTextContent">
         <h2>COMANDI DI GIOCO</h2>
-        <p>Comandi Controller:</p>
+        <p>Comandi Controller(Migliore):</p>
 	<ul>
             <li>R1= Scatto</li>
             <li>Analogico= Movimento</li>
@@ -297,12 +297,12 @@
 </div>
 
 
-<button id="infoButton">Supporters</button>
+<button id="infoButton">Feedback</button>
 
 <div id="infoModal">
     <div id="infoContent">
-        <h2>Supporters & Collab</h2>
-        <p>///////////////</p>
+        <h2>Collab,Sponsor & Feedback</h2>
+        <p>Seguici su Instagram e TikTok e manda richiesta in DM per collab,sponsorhip o problemi gioco</p>
         <button id="closeInfo">Chiudi</button>
     </div>
 </div>
@@ -310,7 +310,7 @@
 
 
 
-!Preferibile giocare con controller!
+
 <!-- Pulsante per aprire lo store -->
 <button id="storeButton" onclick="openStore()">Store</button>
 
@@ -322,7 +322,7 @@
     <h3>Ultimi Aggiornamenti:</h3>
     <ul>
 	<li>◉ !WOW! Supporto controller(PS/XBOX)</li>
-        <li>◉ Aggiunti elementi nello shop da acquistare con monete Kings</li>
+        <li>◉ Aggiunti elementi nello Store delle Carte da acquistare con monete Kings</li>
         <li>◉ Monete Kings salvate anche al riavvio pagina</li>
         <li>◉ Ottimizzato il movimento dell'intelligenza artificiale Offensivamente</li>
         <li>◉ Ottimizzato il movimento dell'intelligenza artificiale Difensivamente</li>
@@ -508,13 +508,13 @@ function openStore() {
     <!-- Menu dello store -->
     <div id="storeMenu">
         <ul>
-            <li><button onclick="buyFonzies()">Compra Slownzies (800 monete)</button></li>
+            <li><button onclick="buyFonzies()">Compra Slownzies (500 monete)</button></li>
 	    <p class="store-description">Rallenta il tiro dell'avversario per 3 minuti.</p>
-            <li><button onclick="buyKinderBueno()">Compra Freeze Bueno (1000 monete)</button></li>
-            <p class="store-description">Ferma il tuo avversario per 10 secondi.</p>
-	<li><button onclick="buyBazr()">Compra Bazar (1500 monete)</button></li>
+            <li><button onclick="buyKinderBueno()">Compra Freeze Bueno (800 monete)</button></li>
+            <p class="store-description">Ferma il tuo avversario per 10 secondi(No movimenti).</p>
+	<li><button onclick="buyBazr()">Compra Bazar (1000 monete)</button></li>
         <p class="store-description">Rallenta l'avversario per 30 secondi.</p>
-	<li><button onclick="buyJD()">Compra DJ (2000 monete)</button></li>
+	<li><button onclick="buyJD()">Compra DJ (1500 monete)</button></li>
         <p class="store-description">Rimuove il posizionamento offensivo(scatto)<br> dell'avversario per 30 secondi.</br></p>
 	<li><button onclick="buyLottomatica()">Compra LottomaDif Sport (2200 monete)</button></li>
         <p class="store-description">Rimuove il posizionamento difensivo dell'avversario <br>per 30 secondi.</br></p>
@@ -658,8 +658,8 @@ let aiShotSpeedMultiplier = 1; // Moltiplicatore della velocità del tiro dell'I
 
 
 function buyFonzies() {
-    if (coins >= 800) {
-        coins -= 800;
+    if (coins >= 500) {
+        coins -= 500;
         applyFonziesEffect();
         updateCoinsDisplay();
         alert("Fonzies acquistati! Tiro dell'avversario rallentato.");
@@ -687,8 +687,8 @@ let kinderBuenoEffectDuration = 0;
 let aiMovementEnabled = true; // Indica se l'IA può muoversi
 
 function buyKinderBueno() {
-    if (coins >= 1000) {
-        coins -= 1000;
+    if (coins >= 800) {
+        coins -= 800;
         applyKinderBuenoEffect();
         updateCoinsDisplay();
         alert("Kinder Bueno acquistato! Avversario bloccato.");
@@ -737,8 +737,8 @@ let aiSpeedMultiplier = 1; // Moltiplicatore della velocità dell'IA
 
 
 function buyBazr() {
-    if (coins >= 50) {
-        coins -= 50;
+    if (coins >= 1000) {
+        coins -= 1000;
         applyBazrEffect();
         updateCoinsDisplay();
         alert("Bazr acquistato! Avversario rallentato.");
@@ -766,8 +766,8 @@ let aiOffensivePositioningEnabled = true; // Indica se l'IA può usare il posizi
 
 
 function buyJD() {
-    if (coins >= 2000) {
-        coins -= 2000;
+    if (coins >= 1500) {
+        coins -= 1500;
         applyJDEffect();
         updateCoinsDisplay();
         alert("JD acquistato! Posizionamento offensivo dell'avversario rimosso.");
@@ -792,8 +792,8 @@ let lottomaticaEffectDuration = 0;
 let aiDefensivePositioningEnabled = true; // Indica se l'IA può usare il posizionamento difensivo
 
 function buyLottomatica() {
-    if (coins >= 2500) {
-        coins -= 2500;
+    if (coins >= 2200) {
+        coins -= 2200;
         applyLottomaticaEffect();
         updateCoinsDisplay();
         alert("Lottomatica Sport acquistato! Posizionamento difensivo dell'avversario rimosso.");
