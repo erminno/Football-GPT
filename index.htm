@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Football-GPT</title>
+    <title>Kings.GPT</title>
     <style>
         body {
             margin: 0;
@@ -9,7 +9,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #4caf50;
+            background-color:#212422;
             flex-direction: column;
         }
         canvas {
@@ -21,14 +21,15 @@
             top: 12px;
             left: 50%;
             transform: translateX(-50%);
-            background: linear-gradient(90deg, #002D72, #007FFF);
-            color: white;
+             background-color: #FFD801;
+            color: black;
             font-size: 24px;
             font-family: Arial, sans-serif;
             padding: 5px 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
         }
+
         #goalMessage {
             position: absolute;
             top: 50%;
@@ -66,7 +67,7 @@
         #restartButton:hover {
             background-color: #0056b3;
         }
-        #durationSelector {
+            #durationSelector {
             margin: 20px;
             font-size: 18px;
             padding: 5px;
@@ -95,83 +96,247 @@
         }
         #teamSelection select {
             font-size: 18px;
-            padding: 5px;
+            padding: 8px;
         }
+
         #storeButton {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            margin: 10px;
-            padding: 10px 20px;
-            font-size: 18px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        #storeButton:hover {
-            background-color: #218838;
-        }
-        #storeMenu {
-            display: none;
-            position: absolute;
-            top: 100px;
-            right: 20px;
-            background-color: #f8f9fa;
-            padding: 15px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-        }
-        #storeMenu ul {
-            list-style: none;
-            padding: 0;
-        }
-        #storeMenu ul li {
-            margin: 10px 0;
-        }
-        @keyframes fadeOut {
-            0% { opacity: 1; }
-            100% { opacity: 0; }
-        }
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #4CAF50; /* Verde */
+    color: white;
+    padding: 25px 35px;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+#storeButton:hover {
+    background-color: #3e8e41; /* Verde più scuro all'hover */
+}
+
+#storeMenu {
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: none;
+}
+
+#storeMenu ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#storeMenu li {
+    margin-bottom: 10px;
+}
+
+#storeMenu button {
+    background-color: #52D017; /* Blu */
+    color: black;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#storeMenu button:hover {
+    background-color: #0077b3; /* Blu più scuro all'hover */
+}
+
+.store-description {
+    font-size: 16px;
+    color: #555;
+    margin-top: 5px;
+}
+
+
+#customTextButton {
+    position: absolute;
+    top: 70%; /* Posiziona il pulsante più in basso */
+    left: 10px;
+    transform: translateY(-50%);
+    background-color: #008CBA; /* Cambia il colore del pulsante */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+#customTextModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+#customTextContent {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+#closeCustomText {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background-color: #555;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+#infoButton {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #3498db; /* Blu */
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#infoButton:hover {
+    background-color: #2980b9; /* Blu più scuro all'hover */
+    transform: translateY(-3px); /* Leggero sollevamento all'hover */
+}
+
+#infoModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+#infoContent {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#closeInfo {
+    background-color: #e74c3c; /* Rosso */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+
+
+
+
+
+
+
 
 
     </style>
 
 
 
+
+
+
+
+
 	<!-- Bottone per seguire il programmatore sui social -->
 	<div id="socialButtons" style="position: absolute; bottom: 20px; left: 20px;">
-    	<button onclick="window.open('https://www.instagram.com/manu.ilminnoo', '_blank')" style="padding: 10px 20px; margin-right: 10px; background-color: #E1306C; color: white; border: none; border-radius: 5px; 	cursor: 	pointer;">
+    	<button onclick="window.open('https://www.instagram.com/kings.gpt', '_blank')" style="padding: 10px 20px; margin-right: 10px; background-color: #E1306C; color: white; border: none; border-radius: 5px; 	cursor: 	pointer;">
         Seguimi su Instagram
     	</button>
-    	<button onclick="window.open('https://www.tiktok.com/@tuo_nome_tiktok', '_blank')" style="padding: 10px 20px; background-color: #000000; color: white; border: none; border-radius: 5px; cursor: pointer;">
+    	<button onclick="window.open('https://www.tiktok.com/@kings.gpt', '_blank')" style="padding: 10px 20px; background-color: #000000; color: white; border: none; border-radius: 5px; cursor: pointer;">
         Seguimi su TikTok
     	</button>
 		</div>
 
+<div id="customTextButton">Comandi</div>
+<div id="customTextModal">
+    <div id="customTextContent">
+        <h2>COMANDI DI GIOCO</h2>
+        <p>Comandi Controller:</p>
+	<ul>
+            <li>R1= Scatto</li>
+            <li>Analogico= Movimento</li>
+        </ul>
+        <p>Comandi Tastiera:</p>
+        <ul>
+            <li>W,A,S,D = Movimento</li>
+        </ul>
+        <button id="closeCustomText">Chiudi</button>
+    </div>
+</div>
+
+
+<button id="infoButton">Supporters</button>
+
+<div id="infoModal">
+    <div id="infoContent">
+        <h2>Supporters & Collab</h2>
+        <p>///////////////</p>
+        <button id="closeInfo">Chiudi</button>
+    </div>
+</div>
 
 
 
 
-	
+
 <!-- Pulsante per aprire lo store -->
 <button id="storeButton" onclick="openStore()">Store</button>
 
 <!-- Pulsante per gli aggiornamenti -->
-<button id="updatesButton" onclick="toggleUpdates()">Ultimi Aggiornamenti</button>
+<button id="updatesButton" onclick="toggleUpdates()">Ultimi Aggiornamenti e Problemi</button>
 
 <!-- Menu degli aggiornamenti -->
-<div id="updatesMenu" style="display: none; position: absolute; top: 210px; right: 20px; background-color: #f8f9fa; padding: 15px;">
+<div id="updatesMenu" style="display: none; position: absolute; top: 210px; right: 20px; background-color: #d8dce3; padding: 15px;">
     <h3>Ultimi Aggiornamenti:</h3>
     <ul>
-	<li>!NEW! Supporto controller(PS/XBOX)</li>
-        <li>Aggiunta la modalità notturna</li>
-        <li>Ottimizzato il movimento dell'intelligenza artificiale</li>
-        <li>Aggiunta nuove squadre</li>
-        <li>Aggiunto pulsante selezione tempo di gioco</li>
-        <li>Nuova interfaccia grafica migliorata</li>
+	<li>◉ !WOW! Supporto controller(PS/XBOX)</li>
+        <li>◉ Aggiunti elementi nello shop da acquistare con monete Kings</li>
+        <li>◉ Monete Kings salvate anche al riavvio pagina</li>
+        <li>◉ Ottimizzato il movimento dell'intelligenza artificiale Offensivamente</li>
+        <li>◉ Ottimizzato il movimento dell'intelligenza artificiale Difensivamente</li>
+        <li>◉ Aggiunto pulsante selezione tempo di gioco</li>
+        <li>◉ Nuova interfaccia grafica migliorata</li>
     </ul>
+
+    <h3>Problemi:</h3>
+    <ul>
+	<li>◉ Giocatore da tastiera puo uscire dai limiti del campo</li>
+	<p>50% Risolvibile</p>
+
+    </ul>
+
 </div>
 
 <style>
@@ -179,17 +344,19 @@
         padding: 12px 25px;
         font-size: 16px;
         border: 2px solid #007bff;
-        background-color: #007bff;
-        color: white;
+        background-color: #52D017;
+        color: black;
         cursor: pointer;
         margin-bottom: 10px; /* Spazio tra i pulsanti */
         transition: all 0.3s ease;
     }
 
     #storeButton:hover {
-        background-color: #0056b3;
+        background-color: #52D017;
         border-color: #0056b3;
     }
+
+
 
     #updatesButton {
         padding: 2px 20px;
@@ -204,13 +371,13 @@
     }
 
     #updatesButton:hover {
-        background-color: #218838;
+        background-color: #848482;
         border-color: #1e7e34;
     }
 
     /* Stile per il menu degli aggiornamenti */
     #updatesMenu {
-        background-color: #f8f9fa;
+        background-color: #848482;
         padding: 20px;
         width: 300px;
         border-radius: 8px;
@@ -220,18 +387,37 @@
     #updatesMenu h3 {
         margin-bottom: 10px;
         font-size: 18px;
+
     }
 
     #updatesMenu ul {
         list-style-type: none;
         padding-left: 0;
+
     }
 
     #updatesMenu ul li {
         font-size: 16px;
         margin: 5px 0;
+
     }
 </style>
+<style>
+        #coinsDisplay {
+            background-color: #4CAF50; /* Colore di sfondo */
+            color: white; /* Colore del testo */
+            padding: 10px 20px; /* Spaziatura interna */
+            border-radius: 5px; /* Angoli arrotondati */
+            border: none; /* Rimuove il bordo predefinito */
+            font-size: 18px; /* Dimensione del font */
+            cursor: pointer; /* Cambia il cursore in una mano */
+            box-shadow: 2 4px 8px rgba(0, 0, 0, 0.2); /* Ombreggiatura */
+        }
+        #coinsDisplay:hover {
+            background-color: #3e8e41; /* Colore di sfondo al passaggio del mouse */
+        }
+    </style>
+<div id="coinsDisplay">Monete Kings: <span id="coins">100</span></div>
 
 <script>
     // Funzione per toggle (apertura/chiusura) della sezione degli aggiornamenti
@@ -241,13 +427,22 @@
     }
 
     // Funzione per aprire lo store (puoi personalizzarla come preferisci)
-    function openStore() {
-        alert("Apertura dello store");
-    }
+function openStore() {
+    // Mostra il menu del negozio
+    document.getElementById("storeMenu").style.display = "block";
+    updateCoinsDisplay(); // Aggiorna la visualizzazione delle monete
+}
 </script>
 
 
 
+
+<canvas id="wheelCanvas" width="200" height="200" style="display: none;"></canvas>
+
+<div id="cartaOptions" style="display: none;">
+    <button onclick="playShootout()">Gioca</button>
+    <button onclick="hideCartaOptions()">Annulla</button>
+</div>
 
 
 	
@@ -261,55 +456,39 @@
     <div id="teamSelection">
         <label for="team1">Seleziona Squadra 1:</label>
         <select id="team1" onchange="setTeams()">
-            <option value="Lazio">Lazio</option>
-            <option value="Roma">Roma</option>
-            <option value="Real Madrid">Real Madrid</option>
-            <option value="Barcellona">Barcellona</option>
-            <option value="Inter">Inter</option>
-            <option value="Milan">Milan</option>
-            <option value="PSG">PSG</option>
-            <option value="Juventus">Juventus</option>
-	<option value="Bayern Monaco">Bayern Monaco</option>
-            <option value="Borussia Dortmund">Borussia Dortmund</option>
-            <option value="Lione">Lione</option>
-            <option value="Marsiglia">Marsiglia</option>
-            <option value="Atletico Madrid">Atletico Madrid</option>
-            <option value="Fiorentina">Fiorentina</option>
-            <option value="Liverpool">Liverpool</option>
-            <option value="Manchester United">Manchester United</option>
-            <option value="Manchester City">Manchester City</option>
-            <option value="Arsenal">Arsenal</option>
-            <option value="Tottenham">Tottenham</option>
-            <option value="Chelsea">Chelsea</option>
-            <option value="West Ham">West Ham</option>
-            <option value="Atalanta">Atalanta</option>
+    <option value="Stallions">Stallions</option>
+    <option value="TRM FC">TRM FC</option>
+    <option value="Underdogs FC">Underdogs FC</option>
+    <option value="FC Zeta">FC Zeta</option>
+    <option value="Circus FC">Circus FC</option>
+    <option value="Gear 7 FC">Gear 7 FC</option>
+    <option value="Punchers FC">Punchers FC</option>
+    <option value="Zebras FC">Zebras FC</option>
+    <option value="Alpak FC">Alpak FC</option>
+    <option value="Black Lotus FC">Black Lotus FC</option>
+    <option value="Boomers">Boomers</option>
+    <option value="FC Caesar">FC Caesar</option>
+
+
 
         </select>
         <br><br>
         <label for="team2">Seleziona Squadra 2:</label>
         <select id="team2" onchange="setTeams()">
-            <option value="Lazio">Lazio</option>
-            <option value="Roma">Roma</option>
-            <option value="Real Madrid">Real Madrid</option>
-            <option value="Barcellona">Barcellona</option>
-            <option value="Inter">Inter</option>
-            <option value="Milan">Milan</option>
-            <option value="PSG">PSG</option>
-            <option value="Juventus">Juventus</option>
-<option value="Bayern Monaco">Bayern Monaco</option>
-            <option value="Borussia Dortmund">Borussia Dortmund</option>
-            <option value="Lione">Lione</option>
-            <option value="Marsiglia">Marsiglia</option>
-            <option value="Atletico Madrid">Atletico Madrid</option>
-            <option value="Fiorentina">Fiorentina</option>
-            <option value="Liverpool">Liverpool</option>
-            <option value="Manchester United">Manchester United</option>
-            <option value="Manchester City">Manchester City</option>
-            <option value="Arsenal">Arsenal</option>
-            <option value="Tottenham">Tottenham</option>
-            <option value="Chelsea">Chelsea</option>
-            <option value="West Ham">West Ham</option>
-            <option value="Atalanta">Atalanta</option>
+    <option value="Stallions">Stallions</option>
+    <option value="TRM FC">TRM FC</option>
+    <option value="Underdogs FC">Underdogs FC</option>
+    <option value="FC Zeta">FC Zeta</option>
+    <option value="Circus FC">Circus FC</option>
+    <option value="Gear 7 FC">Gear 7 FC</option>
+    <option value="Punchers FC">Punchers FC</option>
+    <option value="Zebras FC">Zebras FC</option>
+    <option value="Alpak FC">Alpak FC</option>
+    <option value="Black Lotus FC">Black Lotus FC</option>
+    <option value="Boomers">Boomers</option>
+    <option value="FC Caesar">FC Caesar</option>		
+
+
 
         </select>
     </div>
@@ -323,20 +502,51 @@
         <option value="180">3 Minuti</option>
     </select>
 
-    <!-- Tasto giorno/notte -->
-    <button id="dayNightButton" onclick="toggleDayNight()">Modalità Notte</button>
-    
-    <!-- Pulsante per aprire lo store -->
-    <button id="storeButton" onclick="toggleStore()">Apri Store</button>
+       <!-- Pulsante per aprire lo store -->
+    <button id="storeButton" onclick="toggleStore()">Apri Store Carte</button>
     
     <!-- Menu dello store -->
     <div id="storeMenu">
         <ul>
-            <li>SOON</li>
-            <li>SOON</li>
-            <li>SOON</li>
+            <li><button onclick="buyFonzies()">Compra Slownzies (800 monete)</button></li>
+	    <p class="store-description">Rallenta il tiro dell'avversario per 3 minuti.</p>
+            <li><button onclick="buyKinderBueno()">Compra Freeze Bueno (1000 monete)</button></li>
+            <p class="store-description">Ferma il tuo avversario per 10 secondi.</p>
+	<li><button onclick="buyBazr()">Compra Bazar (1500 monete)</button></li>
+        <p class="store-description">Rallenta l'avversario per 30 secondi.</p>
+	<li><button onclick="buyJD()">Compra DJ (2000 monete)</button></li>
+        <p class="store-description">Rimuove il posizionamento offensivo(scatto)<br> dell'avversario per 30 secondi.</br></p>
+	<li><button onclick="buyLottomatica()">Compra LottomaDif Sport (2200 monete)</button></li>
+        <p class="store-description">Rimuove il posizionamento difensivo dell'avversario <br>per 30 secondi.</br></p>
+        <li>SOON</li>
         </ul>
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	
 <button id="fullscreenButton" onclick="toggleFullscreen()">Attiva/Disattiva Fullscreen</button>
@@ -351,32 +561,22 @@
 
         let score, time, gameRunning, player1, player2, ball, isNight;
 
-        let team1Name = "Lazio", team2Name = "Roma";
+        let team1Name = "Stallions", team2Name = "TRM FC";
 
-        const teamColors = {
-            Lazio: "#00A9E0",
-            Roma: "#9B1B30",
-            "Real Madrid": "#FFFFFF",
-            Barcellona: "#004D98",
-            Inter: "#0057A0",
-            Milan: "#D00027",
-            PSG: "#006B8F",
-            Juventus: "#000000",
-            "Bayern Monaco": "#DC052D",
-            "Borussia Dortmund": "#FDE100",
-            "Lione": "#006CB7",
-            "Marsiglia": "#FFFFFF",
-            "Atletico Madrid": "#CB3531",
-            "Fiorentina": "#9C27B0",
-            "Liverpool": "#D1071A",
-            "Manchester United": "#DA291C",
-            "Manchester City": "#6CABDD",
-            "Arsenal": "#EF0107",
-            "Tottenham": "#132043",
-            "Chelsea": "#034694",
-            "West Ham": "#7A263A",
-            "Atalanta": "#1B5E20"
-        };
+const teamColors = {
+    Stallions: "#007fff",    
+    "TRM FC": "#FFD700", 
+    "Underdogs FC": "#006400",   
+    "FC Zeta": "#ff0000",    
+    "Circus FC": "#800080", 
+    "Gear 7 FC": "#7F462C", 
+    "Punchers FC": "#FAF0E6", 
+    "Zebras FC": "#808080", 
+    "Alpak FC": "#FF69B4", 
+    "Black Lotus FC": "#00008B",
+    Boomers: "#1C1C1C", 
+    "FC Caesar": "#a61022",
+};
 
 
         function setGameDuration() {
@@ -394,6 +594,8 @@
                 button.innerText = "Modalità Notte";
             }
             updateFieldAppearance();
+
+
         }
 
         function updateFieldAppearance() {
@@ -422,6 +624,268 @@ player1 = {
 };
 
 
+let coins = 100; // Inizializza la valuta del giocatore
+
+function updateCoinsDisplay() {
+    // Aggiorna l'elemento HTML che mostra la valuta del giocatore
+    document.getElementById("coins").innerText = coins;
+saveCoins();
+}
+
+
+
+loadCoins(); // Carica le monete all'inizio
+updateCoinsDisplay(); // Aggiorna la visualizzazione
+
+
+function saveCoins() {
+    localStorage.setItem("coins", coins);
+}
+function loadCoins() {
+    const savedCoins = localStorage.getItem("coins");
+    if (savedCoins) {
+        coins = parseInt(savedCoins);
+    }
+}
+
+
+
+let fonziesEffectActive = false;
+let fonziesEffectDuration = 0;
+let aiShotSpeedMultiplier = 1; // Moltiplicatore della velocità del tiro dell'IA
+
+
+
+
+function buyFonzies() {
+    if (coins >= 800) {
+        coins -= 800;
+        applyFonziesEffect();
+        updateCoinsDisplay();
+        alert("Fonzies acquistati! Tiro dell'avversario rallentato.");
+    } else {
+        alert("Monete Kings insufficienti!");
+    }
+}
+
+
+
+
+
+
+function applyFonziesEffect() {
+    fonziesEffectActive = true;
+    fonziesEffectDuration = 180; 
+    aiShotSpeedMultiplier = 0.5; // Rallenta il tiro dell'IA del 50%
+}
+
+
+
+
+let kinderBuenoEffectActive = false;
+let kinderBuenoEffectDuration = 0;
+let aiMovementEnabled = true; // Indica se l'IA può muoversi
+
+function buyKinderBueno() {
+    if (coins >= 1000) {
+        coins -= 1000;
+        applyKinderBuenoEffect();
+        updateCoinsDisplay();
+        alert("Kinder Bueno acquistato! Avversario bloccato.");
+    } else {
+        alert("Monete Kings insufficienti!");
+    }
+}
+
+
+function applyKinderBuenoEffect() {
+    kinderBuenoEffectActive = true;
+    kinderBuenoEffectDuration = 10 * 60; // 10 secondi a 60 FPS
+    aiMovementEnabled = false; // Blocca il movimento dell'IA
+}
+
+              
+
+
+
+const customTextButton = document.getElementById("customTextButton");
+const customTextModal = document.getElementById("customTextModal");
+const closeCustomText = document.getElementById("closeCustomText");
+
+customTextButton.addEventListener("click", () => {
+    customTextModal.style.display = "flex";
+});
+
+closeCustomText.addEventListener("click", () => {
+    customTextModal.style.display = "none";
+});
+
+window.addEventListener("click", (event) => {
+    if (event.target === customTextModal) {
+        customTextModal.style.display = "none";
+    }
+});
+
+
+
+
+
+
+let bazrEffectActive = false;
+let bazrEffectDuration = 0;
+let aiSpeedMultiplier = 1; // Moltiplicatore della velocità dell'IA
+
+
+function buyBazr() {
+    if (coins >= 50) {
+        coins -= 50;
+        applyBazrEffect();
+        updateCoinsDisplay();
+        alert("Bazr acquistato! Avversario rallentato.");
+    } else {
+        alert("Monete Kings insufficienti!");
+    }
+}
+
+function applyBazrEffect() {
+    bazrEffectActive = true;
+    bazrEffectDuration = 30 * 60; // 30 secondi a 60 FPS
+    aiSpeedMultiplier = 0.5; // Rallenta l'IA del 50%
+}
+
+
+
+
+
+
+
+
+let jdEffectActive = false;
+let jdEffectDuration = 0;
+let aiOffensivePositioningEnabled = true; // Indica se l'IA può usare il posizionamento offensivo
+
+
+function buyJD() {
+    if (coins >= 2000) {
+        coins -= 2000;
+        applyJDEffect();
+        updateCoinsDisplay();
+        alert("JD acquistato! Posizionamento offensivo dell'avversario rimosso.");
+    } else {
+        alert("Monete Kings insufficienti!");
+    }
+}
+
+
+function applyJDEffect() {
+    jdEffectActive = true;
+    jdEffectDuration = 30 * 60; // 30 secondi a 60 FPS
+    aiOffensivePositioningEnabled = false;
+}
+
+
+
+
+
+let lottomaticaEffectActive = false;
+let lottomaticaEffectDuration = 0;
+let aiDefensivePositioningEnabled = true; // Indica se l'IA può usare il posizionamento difensivo
+
+function buyLottomatica() {
+    if (coins >= 2500) {
+        coins -= 2500;
+        applyLottomaticaEffect();
+        updateCoinsDisplay();
+        alert("Lottomatica Sport acquistato! Posizionamento difensivo dell'avversario rimosso.");
+    } else {
+        alert("Monete Kings insufficienti!");
+    }
+}
+
+function applyLottomaticaEffect() {
+    lottomaticaEffectActive = true;
+    lottomaticaEffectDuration = 30 * 60; // 30 secondi a 60 FPS
+    aiDefensivePositioningEnabled = false; // Disabilita il posizionamento difensivo
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         function initGame() {
@@ -432,9 +896,12 @@ player1 = {
             player1 = { x: 100, y: 250, size: 15, color: teamColors[team1Name] };
             player2 = { x: 700, y: 250, size: 15, color: teamColors[team2Name] };
             ball = { x: 400, y: 250, size: 10, dx: 0.6, dy: 0.6 };
-            isNight = false;
+            isNight = true;
             updateFieldAppearance();
             document.getElementById("endMessage").style.display = "none";
+
+	aiOffensivePositioningEnabled = true;
+
         }
 
         function drawField() {
@@ -472,6 +939,21 @@ player1 = {
         }
 
         function drawBall() {
+function drawBall() {
+    // Effetto scia
+    ctx.beginPath();
+    ctx.arc(ball.x - ball.dx * 5, ball.y - ball.dy * 5, ball.size - 2, 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+    ctx.fill();
+    ctx.closePath();
+
+    // Disegna la palla
+    ctx.beginPath();
+    ctx.arc(ball.x, ball.y, ball.size, 0, Math.PI * 2);
+    ctx.fillStyle = "white";
+    ctx.fill();
+    ctx.closePath();
+}
             ctx.beginPath();
             ctx.arc(ball.x, ball.y, ball.size, 0, Math.PI * 2);
             ctx.fillStyle = "white";
@@ -483,28 +965,30 @@ player1 = {
             ball.x += ball.dx;
             ball.y += ball.dy;
 
+    if (ball.x - ball.size < 0 || ball.x + ball.size > canvas.width) {
+        ball.dx *= -1; // Inverti la direzione orizzontale
+        ball.dx *= 0.8; // Riduci la velocità dell'20%
+    }
 
+    if (ball.y - ball.size < 0 || ball.y + ball.size > canvas.height) {
+        ball.dy *= -1; // Inverti la direzione verticale
+        ball.dy *= 0.8; // Riduci la velocità del 20%
+    }
 
-            if (ball.x - ball.size < 0 || ball.x + ball.size > canvas.width) {
-                ball.dx *= -1;
-            }
+ if (ball.x < 10 && ball.y > 175 && ball.y < 325) {
+        score.team2++;
+        showGoalMessage();
+        resetBall();
+        checkGameEnd();
+    }
 
-            if (ball.y - ball.size < 0 || ball.y + ball.size > canvas.height) {
-                ball.dy *= -1;
-            }
-
-            if (ball.x < 10 && ball.y > 175 && ball.y < 325) {
-                score.team2++;
-                showGoalMessage();
-                resetBall();
-                checkGameEnd();
-            }
-            if (ball.x > 790 && ball.y > 175 && ball.y < 325) {
-                score.team1++;
-                showGoalMessage();
-                resetBall();
-                checkGameEnd();
-            }
+    // Porta di destra (IA)
+    if (ball.x > 790 && ball.y > 175 && ball.y < 325) {
+        score.team1++;
+        showGoalMessage();
+        resetBall();
+        checkGameEnd();
+    }
         }
 
         function showGoalMessage() {
@@ -527,7 +1011,7 @@ player1 = {
 
             if (distance < ball.size + player.size) {
                 const angle = Math.atan2(dy, dx);
-                const speed = 4;
+                const speed = 6;
                 ball.dx = Math.cos(angle) * speed;
                 ball.dy = Math.sin(angle) * speed;
             }
@@ -554,23 +1038,43 @@ player1 = {
             initGame();
         }
 
-        function checkGameEnd() {
-            if (score.team1 >= 5 || score.team2 >= 5 || time <= 0) {
-                gameRunning = false;
-                if (score.team1 === score.team2) {
-                    document.getElementById("endMessage").innerText = `Partita Finita! Pareggio!`;
-                } else {
-                    const winner = score.team1 > score.team2 ? team1Name : team2Name;
-                    document.getElementById("endMessage").innerText = `Partita Finita! Vince ${winner}`;
-                }
-                document.getElementById("endMessage").style.display = "block";
-            }
+let coinsAwarded = false; // Variabile di controllo
+
+function checkGameEnd() {
+    if (score.team1 >= 10 || score.team2 >= 10 || time <= 0) {
+        gameRunning = false;
+        if (score.team1 === score.team2) {
+            document.getElementById("endMessage").innerText = `Partita Finita! Pareggio!`;
+        } else {
+            const winner = score.team1 > score.team2 ? team1Name : team2Name;
+            document.getElementById("endMessage").innerText = `Partita Finita! Vince ${winner}`;
         }
+        document.getElementById("endMessage").style.display = "block";
+
+        // Assegna monete solo se non sono già state assegnate
+        if (!coinsAwarded) {
+            if (score.team1 > score.team2) {
+                coins += 100;
+            } else if (score.team1 < score.team2) {
+                coins += 25;
+            } else {
+                coins += 50;
+            }
+            updateCoinsDisplay();
+            coinsAwarded = true; // Imposta la variabile di controllo a true
+        }
+    } else {
+        // Resetta la variabile di controllo se la partita non è finita
+        coinsAwarded = false;
+    }
+}
 
         function restartGame() {
             document.getElementById("endMessage").style.display = "none";
             initGame();
         }
+
+
 
 function gameLoop() {
     if (!gameRunning) return;
@@ -585,48 +1089,132 @@ function gameLoop() {
     moveAI();
     checkAICollision();
     updateScoreboard();
+if (fonziesEffectActive) {
+        fonziesEffectDuration--;
+        if (fonziesEffectDuration <= 0) {
+            fonziesEffectActive = false;
+            aiShotSpeedMultiplier = 1; // Ripristina la velocità normale
+        }
+    }
+
+if (bazrEffectActive) {
+        bazrEffectDuration--;
+        if (bazrEffectDuration <= 0) {
+            bazrEffectActive = false;
+            aiSpeedMultiplier = 1; // Ripristina la velocità normale
+        }
+    }
+    if (jdEffectActive) {
+        jdEffectDuration--;
+        if (jdEffectDuration <= 0) {
+            jdEffectActive = false;
+            aiOffensivePositioningEnabled = true;
+            moveAI(); // Aggiungi questa riga
+        }
+    }
+if (lottomaticaEffectActive) {
+        lottomaticaEffectDuration--;
+        if (lottomaticaEffectDuration <= 0) {
+            lottomaticaEffectActive = false;
+            aiDefensivePositioningEnabled = true; // Ripristina il posizionamento difensivo
+        }
+    }
+
+updateGame();
+requestAnimationFrame(gameLoop);
+
 }
 
-	// Funzione per far muovere l'intelligenza artificiale (player2) in modo più deciso
-	function moveAI() {
-    	// Calcolare la direzione verso la palla
-    	const dxToBall = ball.x - player2.x;
-    	const dyToBall = ball.y - player2.y;
+function moveAI() {
+    // Calcola la distanza tra la palla e l'IA
+    const dxToBall = ball.x - player2.x;
+    const dyToBall = ball.y - player2.y;
+    const distanceToBall = Math.sqrt(dxToBall * dxToBall + dyToBall * dyToBall);
 
-    	// Calcolare la distanza tra l'AI e la palla
-    	const distanceToBall = Math.sqrt(dxToBall * dxToBall + dyToBall * dyToBall);
+    // Imposta la velocità di movimento base dell'IA
+    let baseMoveSpeed = 5;
 
-    	// Normalizzare il movimento per rendere l'AI più veloce
-    	const moveSpeed = 4;  // Maggiore velocità per l'AI
+    // Applica il moltiplicatore di velocità dell'effetto Bazr
+    let moveSpeed = baseMoveSpeed * aiSpeedMultiplier;
 
-    	// L'IA si muove verso la palla se è lontana abbastanza
-   	 if (distanceToBall > player2.size + ball.size) {
-        player2.x += (dxToBall / distanceToBall) * moveSpeed;
-        player2.y += (dyToBall / distanceToBall) * moveSpeed;
-    	} else {
-        // Quando l'IA è vicina alla palla, spinge il pallone verso la porta di sinistra (player1)
-        const targetX = 50;  // La porta di sinistra si trova vicino a X = 50
-        const targetY = canvas.height / 2;  // Centrato sulla porta
+    // Posizione della porta dell'IA
+    const aiGoalX = 790;
+    const aiGoalY = canvas.height / 2;
 
-        const dxToGoal = targetX - ball.x;  // Direzione verso la porta di sinistra
-        const dyToGoal = targetY - ball.y;  // Direzione centrata sulla porta
+    // Posizione della porta dell'utente
+    const userGoalX = 10;
+    const userGoalY = canvas.height / 2;
 
-        // Normalizzare il movimento verso la porta di sinistra
-        const goalSpeed = 5;  // Maggiore velocità verso la porta
-        ball.dx = (dxToGoal / Math.abs(dxToGoal)) * goalSpeed;
-        ball.dy = (dyToGoal / Math.abs(dyToGoal)) * goalSpeed;
-   	 }
+    // Distanza dalla palla alla porta dell'IA
+    const distanceToAiGoal = Math.sqrt(Math.pow(ball.x - aiGoalX, 2) + Math.pow(ball.y - aiGoalY, 2));
 
-    // Limiti del movimento dell'IA: impedire che si avvicini troppo ai bordi
-    const margin = 50;  // Distanza minima dal bordo (evitare angoli e bordi)
-    if (player2.x < margin) player2.x = margin;  // Non oltre il bordo sinistro
-    if (player2.x > canvas.width - margin) player2.x = canvas.width - margin;  // Non oltre il bordo destro
-    if (player2.y < margin) player2.y = margin;  // Non oltre il bordo superiore
-    if (player2.y > canvas.height - margin) player2.y = canvas.height - margin;  // Non oltre il bordo inferiore
+    // Distanza dalla palla alla porta dell'utente
+    const distanceToUserGoal = Math.sqrt(Math.pow(ball.x - userGoalX, 2) + Math.pow(ball.y - userGoalY, 2));
+
+    // Posizionamento difensivo (considera l'effetto Lottomatica)
+    if (aiDefensivePositioningEnabled && distanceToAiGoal < 200) {
+        player2.x = aiGoalX - 100;
+        player2.y = ball.y;
+
+        if (distanceToBall < 50) {
+            if (ball.y < player2.y) {
+                player2.y -= 3;
+            } else {
+                player2.y += 3;
+            }
+        }
+
+    }
+
+    // Verifica se l'IA è bloccata dall'effetto Kinder Bueno
+    if (!aiMovementEnabled) {
+        return; // L'IA non si muove se è bloccata
+    }
+
+    // Posizionamento offensivo (considera l'effetto JD)
+    if (aiOffensivePositioningEnabled && distanceToUserGoal < 200) {
+        player2.x = ball.x + 100;
+        player2.y = ball.y;
+
+        // Se la palla è molto vicina, l'IA cerca di colpirla
+        if (distanceToBall < 50) {
+            moveSpeed = 3; // Aumenta la velocità quando si avvicina per tirare
+            if (ball.x < player2.x) {
+                player2.x -= moveSpeed;
+            } else {
+                player2.x += moveSpeed;
+            }
+        }
+    }
+    // Movimento normale
+    else {
+        if (distanceToBall > player2.size + ball.size - 20) {
+            player2.x += (dxToBall / distanceToBall) * moveSpeed;
+            player2.y += (dyToBall / distanceToBall) * moveSpeed;
+        } else {
+            // Calcola la direzione verso la porta dell'utente
+            const dxToUserGoal = userGoalX - ball.x;
+            const dyToUserGoal = userGoalY - ball.y;
+
+            // Evita autogol: se la palla è vicina alla porta dell'IA e si muove verso di essa, cambia direzione
+            if (ball.x > 700 && Math.abs(dyToUserGoal) < 150 && ball.dx > 0) {
+                ball.dx *= -1; // Inverti la direzione orizzontale
+                ball.dy *= -1; // Inverti la direzione verticale
+            } else {
+                const goalSpeed = 8; // Aumenta la velocità del tiro
+                ball.dx = (dxToUserGoal / Math.abs(dxToUserGoal)) * goalSpeed;
+                ball.dy = (dyToUserGoal / Math.abs(dyToUserGoal)) * goalSpeed;
+            }
+        }
+    }
+
+    // Limiti del movimento dell'IA
+    const margin = 50;
+    if (player2.x < margin) player2.x = margin;
+    if (player2.x > canvas.width - margin) player2.x = canvas.width - margin;
+    if (player2.y < margin) player2.y = margin;
+    if (player2.y > canvas.height - margin) player2.y = canvas.height - margin;
 }
-
-
-
 
 
 
@@ -640,11 +1228,24 @@ function checkAICollision() {
     // Se la distanza tra il pallone e l'AI è abbastanza piccola, significa che l'AI ha colpito il pallone
     if (distance < ball.size + player2.size) {
         const angle = Math.atan2(dy, dx);  // Calcola l'angolo di direzione per il pallone
-        const speed = 4.5;  // Velocità con cui il pallone viene spinto
+        const speed = 5.5;  // Velocità con cui il pallone viene spinto										//------------------------------------------------------
         ball.dx = Math.cos(angle) * speed;
         ball.dy = Math.sin(angle) * speed;
     }
+
+
+let moveSpeed = 5 * aiSpeedMultiplier; // Applica il moltiplicatore
 }
+
+
+
+
+
+
+
+
+
+
 
 // Funzione che si occupa di far avanzare il gioco
     function gameLoop() {
@@ -662,6 +1263,16 @@ function checkAICollision() {
         moveAI();
         checkAICollision();
         updateScoreboard();
+	if (kinderBuenoEffectActive) {
+        kinderBuenoEffectDuration--;
+        if (kinderBuenoEffectDuration <= 0) {
+            kinderBuenoEffectActive = false;
+            aiMovementEnabled = true; // Ripristina il movimento dell'IA
+        }
+    	}
+
+
+
     }
 
         setInterval(() => {
@@ -690,26 +1301,52 @@ function checkAICollision() {
 
 
    // Impostiamo dei margini minimi rispetto ai bordi del campo
-const MARGIN = 10;  // Margine minimo per evitare che il giocatore vada oltre i limiti
+
 
 // Funzione per il movimento del giocatore di sinistra
 function movePlayer1() {
     // Movimento verticale
-    if (keys['W'] && player1.y > MARGIN) {  // Restrizione superiore
-        player1.y -= player1.speed;
+    if (keys["w"]) {
+        player1.y -= 5;
     }
-    if (keys['S'] && player1.y < canvas.height - player1.height - MARGIN) {  // Restrizione inferiore
-        player1.y += player1.speed;
+    if (keys["s"]) {
+        player1.y += 5;
+    }
+    if (keys["a"]) {
+        player1.x -= 5;
+    }
+    if (keys["d"]) {
+        player1.x += 5;
     }
 
-    // Movimento orizzontale
-    if (keys['A'] && player1.x > MARGIN) {  // Restrizione sinistra
-        player1.x -= player1.speed;
-    }
-    if (keys['D'] && player1.x < canvas.width - player1.width - MARGIN) {  // Restrizione destra
-        player1.x += player1.speed;
-    }
+        player1.x += moveX;
+        player1.y += moveY;
+
+        // Limita il movimento del giocatore all'interno del canvas
+        if (player1.x < 0) player1.x = 0;
+        if (player1.x > canvas.width - player1.size) player1.x = canvas.width - player1.size;
+        if (player1.y < 0) player1.y = 0;
+        if (player1.y > canvas.height - player1.size) player1.y = canvas.height - player1.size;
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function draw() {
     // Pulisce il canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -717,9 +1354,6 @@ function draw() {
     // Disegna il giocatore 1
     ctx.fillStyle = 'red';  // Colore del giocatore
     ctx.fillRect(player1.x, player1.y, player1.width, player1.height);
-
-    // Disegna altri elementi del gioco come la palla, ecc.
-    // ...
 
     // Esegui il movimento del giocatore
     movePlayer1();
@@ -832,34 +1466,93 @@ function keepBallInBounds(ball, canvas) {
     </script>
 
 <script>
-    let gamepad;
+let isSprinting = false; // Variabile per tracciare se il giocatore sta scattando
 
-    function checkGamepad() {
-        const gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
-        gamepad = gamepads[0]; // Prende il primo controller disponibile
+function checkGamepad() {
+    const gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
+    gamepad = gamepads[0]; // Prende il primo controller disponibile
 
-        if (gamepad) {
-            // Asse orizzontale (asse 0)
-            const horizontalAxis = gamepad.axes[0];
-            // Asse verticale (asse 1)
-            const verticalAxis = gamepad.axes[1];
+    if (gamepad) {
+        // Asse orizzontale (asse 0)
+        const horizontalAxis = gamepad.axes[0];
+        // Asse verticale (asse 1)
+        const verticalAxis = gamepad.axes[1];
 
-            // Movimento del giocatore basato sugli assi del controller
-            player1.x += horizontalAxis * 5; // Regola la velocità di movimento
-            player1.y += verticalAxis * 5;
+        // Movimento del giocatore basato sugli assi del controller
+        player1.x += horizontalAxis * 5; // Regola la velocità di movimento
+        player1.y += verticalAxis * 5;
 
-            // Limita il movimento del giocatore all'interno del canvas
-            if (player1.x < 0) player1.x = 0;
-            if (player1.x > canvas.width - player1.size) player1.x = canvas.width - player1.size;
-            if (player1.y < 0) player1.y = 0;
-            if (player1.y > canvas.height - player1.size) player1.y = canvas.height - player1.size;
+        // Limita il movimento del giocatore all'interno del canvas
+        if (player1.x < 0) player1.x = 0;
+        if (player1.x > canvas.width - player1.size) player1.x = canvas.width - player1.size;
+        if (player1.y < 0) player1.y = 0;
+        if (player1.y > canvas.height - player1.size) player1.y = canvas.height - player1.size;
 
+        // Scatto con R1 (bottone 5)
+        if (gamepad.buttons[5].pressed) {
+            sprintPlayer1();
+        } else {
+            isSprinting = false; // Resetta lo stato di scatto
         }
-
     }
+}
+
+function sprintPlayer1() {
+    if (!isSprinting) {
+        // Calcola la direzione dello scatto (verso il pallone)
+        const sprintDirection = Math.atan2(ball.y - player1.y, ball.x - player1.x);
+
+        // Applica lo scatto
+        player1.x += Math.cos(sprintDirection) * 60;
+        player1.y += Math.sin(sprintDirection) * 60;
+
+        isSprinting = true; // Imposta lo stato di scatto
+    }
+}
+
+window.addEventListener("keydown", (e) => {
+    if (!gameRunning) return;
+
+    switch (e.key) {
+        case "w": player1.y -= 30; break;
+        case "s": player1.y += 30; break;
+        case "a": player1.x -= 30; break;
+        case "d": player1.x += 30; break;
+        case "t": sprintPlayer1(); break; // Scatto con "T"
+    }
+});
+
+const infoButton = document.getElementById("infoButton");
+const infoModal = document.getElementById("infoModal");
+const closeInfo = document.getElementById("closeInfo");
+
+infoButton.addEventListener("click", () => {
+    infoModal.style.display = "flex";
+});
+
+closeInfo.addEventListener("click", () => {
+    infoModal.style.display = "none";
+});
+
+window.addEventListener("click", (event) => {
+    if (event.target === infoModal) {
+        infoModal.style.display = "none";
+    }
+});
+
+
+
+
+
+
+
+
+
+
 
 
 </script>
+
 
 
 
